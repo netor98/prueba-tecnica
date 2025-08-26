@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react'
 import './App.css'
 import Pagination from './components/Pagination';
+import Searcher from './components/Searcher';
 
 function App() {
   const API_URL = 'https://swapi.info/api'
 
   const [characters, setCharacters] = useState([])
   const [currentPage, setCurrentPage] = useState(1);
-
+  const [searchTerm, setSearchTerm] = useState('');
 
   //Api call
   useEffect(() => {
@@ -25,12 +26,21 @@ function App() {
 
   const currentCharacters = characters.slice(indexOfFirstItem, indexOfLastItem);
 
+  const filteredData = characters.filter(character =>
+    character.name.toLowerCase().includes(searchTerm)
+  ).slice(indexOfFirstItem, indexOfLastItem)
+
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
 
+  const handleSearch = (term) => {
+    setSearchTerm(term)
+  }
+
   return (
     <>
+      <Searcher term={searchTerm} handleSearch={handleSearch} />
       <table>
         <thead>
           <tr>
@@ -47,7 +57,7 @@ function App() {
         </thead>
 
         <tbody>
-          {currentCharacters.map((character) => (
+          {filteredData.map((character) => (
             <tr key={character.name}>
               <td>{character.name}</td>
               <td>{character.height}</td>
