@@ -2,9 +2,11 @@ import { useState, useEffect } from 'react'
 import './App.css'
 import Pagination from './components/Pagination';
 import Searcher from './components/Searcher';
+import Table from './components/Table';
 
 function App() {
   const API_URL = 'https://swapi.info/api'
+  const itemsPerPage = 5;
 
   const [characters, setCharacters] = useState([])
   const [currentPage, setCurrentPage] = useState(1);
@@ -17,63 +19,49 @@ function App() {
       .then((json) => setCharacters(json))
   }, [])
 
+  console.log(characters)
+
+
+  //Searcher
+  let filteredData = characters.filter(character =>
+    character.name.toLowerCase().includes(searchTerm.toLowerCase())
+  )
+
+  console.log(filteredData)
+
+  // filteredData = filteredData.slice(indexOfFirstItem, indexOfLastItem)
 
   //Pagination 
-  const itemsPerPage = 5;
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage)
+  let indexOfLastItem = currentPage * itemsPerPage;
+  let indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentCharacters = filteredData.slice(indexOfFirstItem, indexOfLastItem);
 
-  const currentCharacters = characters.slice(indexOfFirstItem, indexOfLastItem);
 
-  const filteredData = characters.filter(character =>
-    character.name.toLowerCase().includes(searchTerm)
-  ).slice(indexOfFirstItem, indexOfLastItem)
 
+  //Handlers
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
 
   const handleSearch = (term) => {
     setSearchTerm(term)
+
+    setCurrentPage(1)
+
+    // indexOfFirstItem = 0
+    // indexOfLastItem = 5
+    // itemsPerPage = filteredData.length
   }
 
   return (
     <>
+      <h1>Práctica técnica</h1>
       <Searcher term={searchTerm} handleSearch={handleSearch} />
-      <table>
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Altura</th>
-            <th>Peso</th>
-            <th>Color de cabello</th>
-            <th>Color de piel</th>
-            <th>Color de ojos</th>
-            <th>Fecha de nacimiento</th>
-            <th>Genero</th>
-            <th>Planeta de nacimiento</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {filteredData.map((character) => (
-            <tr key={character.name}>
-              <td>{character.name}</td>
-              <td>{character.height}</td>
-              <td>{character.mass}</td>
-              <td>{character.hair_color}</td>
-              <td>{character.skin_color}</td>
-              <td>{character.eye_color}</td>
-              <td>{character.birth_year}</td>
-              <td>{character.gender}</td>
-              <td>{character.homeworld}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <Table filteredCharacters={currentCharacters} />
       <Pagination handleChange={handlePageChange} currentPage={currentPage}
-        charactersLength={characters.length} />
+        totalPages={totalPages} itemsPage={itemsPerPage} />
     </>
   )
 }

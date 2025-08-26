@@ -1,6 +1,6 @@
-export default function Pagination({ handleChange, currentPage, charactersLength }) {
+export default function Pagination({ handleChange, currentPage, totalPages, itemsPage }) {
 
-  console.log(charactersLength)
+  console.log(currentPage, totalPages, itemsPage)
   return (
     <div>
       <button onClick={() => handleChange(currentPage - 1)}
@@ -12,10 +12,10 @@ export default function Pagination({ handleChange, currentPage, charactersLength
 
 
       <button onClick={() => handleChange(currentPage + 1)}
-        disabled={currentPage == Math.ceil(charactersLength / 5)}
+        disabled={currentPage == totalPages}
       >
         Siguiente
       </button>
-    </div>
+    </div >
   )
 }
