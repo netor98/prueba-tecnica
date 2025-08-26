@@ -1,6 +1,5 @@
-export default function Pagination({ handleChange, currentPage, totalPages, itemsPage }) {
+export default function Pagination({ handleChange, currentPage, totalPages }) {
 
-  console.log(currentPage, totalPages, itemsPage)
   return (
     <div>
       <button onClick={() => handleChange(currentPage - 1)}

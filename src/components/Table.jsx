@@ -1,4 +1,4 @@
-export default function Table({ filteredCharacters }) {
+export default function Table({ filteredCharacters, handleCharacter }) {
   // console.log(filteredCharacters)
   return (
     <table>
@@ -18,7 +18,7 @@ export default function Table({ filteredCharacters }) {
 
       <tbody>
         {filteredCharacters.map((character) => (
-          <tr key={character.name}>
+          <tr key={character.name} onClick={() => handleCharacter(character)}>
             <td>{character.name}</td>
             <td>{character.height}</td>
             <td>{character.mass}</td>
