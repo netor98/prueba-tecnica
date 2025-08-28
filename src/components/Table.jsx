@@ -1,4 +1,4 @@
-export default function Table({ filteredCharacters, handleCharacter }) {
+export default function Table({ filteredCharacters, handleCharacter, planets }) {
   // console.log(filteredCharacters)
   return (
     <table>
@@ -27,7 +27,7 @@ export default function Table({ filteredCharacters, handleCharacter }) {
             <td>{character.eye_color}</td>
             <td>{character.birth_year}</td>
             <td>{character.gender}</td>
-            <td>{character.homeworld}</td>
+            <td>{planets[character.homeworld]}</td>
           </tr>
         ))}
       </tbody>

@@ -3,6 +3,7 @@ import { useEffect } from "react"
 
 export default function Modal({ selectedCharacter, onClose }) {
 
+  //Urls
   const filmsUrls = selectedCharacter.films
   const vehiclesUrls = selectedCharacter.vehicles
   const starshipsUrls = selectedCharacter.starships
@@ -54,12 +55,14 @@ export default function Modal({ selectedCharacter, onClose }) {
   return (
     <div className="modal">
       <div className="modal-content">
-        <button onClick={onClose}>Cerrar</button>
-        <h2>Nombre: {selectedCharacter.name}</h2>
+        <div className="close-btn">
+          <h2>Nombre: {selectedCharacter.name}</h2>
+          <button onClick={onClose}>Cerrar</button>
+        </div>
         <h3>Peliculas</h3>
         {films.length > 0 ?
           <ol>
-            {films.map((film) => (<li> {film}</li>))}
+            {films.map((film, i) => (<li key={i}> {film}</li>))}
           </ol>
           :
           <p>No hay peliculas</p>
@@ -69,7 +72,7 @@ export default function Modal({ selectedCharacter, onClose }) {
 
         {vehicles.length > 0 ?
           <ol>
-            {vehicles.map((vehicle) => (<li> {vehicle}</li>))}
+            {vehicles.map((vehicle, i) => (<li key={i}> {vehicle}</li>))}
           </ol>
           :
           <p>No hay vehiculos</p>
@@ -78,7 +81,7 @@ export default function Modal({ selectedCharacter, onClose }) {
         <h3>Naves</h3>
         {starships.length > 0 ?
           <ol>
-            {starships.map((starship) => (<li> {starship}</li>))}
+            {starships.map((starship, i) => (<li key={i}> {starship}</li>))}
           </ol>
           :
           <p>No hay naves</p>
